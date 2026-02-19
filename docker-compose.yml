@@ -1,0 +1,11 @@
+name: exam_notes
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: rootpassword
+      MYSQL_DB: exam_notes
+    ports:
+      - "3306:3306"
+

@@ -1,0 +1,11 @@
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+# Environment files (containing secrets, API keys, credentials)
+.env
+*.env
+.env.*
+
+# Dependencies
+node_modules/
