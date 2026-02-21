@@ -1,3 +1,4 @@
-const app=require("./app")
+const app = require("./app");
+const { PORT } = require("./config/env.config");
 
-app.listen(8000,()=>console.log(`server is running`))
+app.listen(PORT, () => console.log(`server is running at port ${PORT}`));

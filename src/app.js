@@ -1,7 +1,11 @@
-const express=require("express")
-const app=express()
+const express = require("express");
+const app = express();
 
+app.get("/health-check", async (req, res, next) => {
+  return res.status(200).json({
+    success: true,
+    message: "server is running up !!!",
+  });
+});
 
-
-
-module.exports=app
+module.exports = app;
