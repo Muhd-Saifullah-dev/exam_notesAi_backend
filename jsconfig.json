@@ -5,7 +5,8 @@
       "@app/*": ["src/app/*"],
       "@routes/*": ["src/routes/*"],
       "@config/*": ["src/config/*"],
-      "@model/*": ["src/api/v1/model/*"]
+      "@model/*": ["src/api/v1/model/*"],
+      "@constant/*":["src/constant/*"]
     }
   }
 }
