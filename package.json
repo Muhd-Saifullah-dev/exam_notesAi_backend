@@ -16,15 +16,19 @@
     "@routes": "src/routes",
     "@config": "src/config",
     "@model": "src/api/v1/model",
-    "@constant":"src/constant"
+    "@constant": "src/constant"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "express-winston": "^4.2.0",
+    "firebase-admin": "^13.7.0",
     "jsonwebtoken": "^9.0.3",
     "module-alias": "^2.3.4",
-    "mongoose": "^9.2.3"
+    "mongoose": "^9.2.3",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

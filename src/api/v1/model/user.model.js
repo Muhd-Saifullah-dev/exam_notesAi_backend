@@ -20,7 +20,7 @@ const userschema = new mongoose.Schema(
     },
     isCreditAvailable: {
       type: Boolean,
-      required: true,
+      default: true,
     },
     notes: {
       type: [mongoose.Schema.Types.ObjectId],
@@ -30,6 +30,21 @@ const userschema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+
+userschema.add({
+  googleId: {
+    type: String,
+  },
+  provider: {
+    type: String,
+    enum: ["google", "local"],
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 userschema.methods.generateAccessToken = function () {
   return jwt.sign({ id: this._id }, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRY });

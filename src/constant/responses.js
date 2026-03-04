@@ -107,6 +107,16 @@ class Responses {
     data: null,
     message: error,
   });
+
+
+  generic_error=(code,error=null)=>({
+    status:{
+      code:code,
+      success:false
+    },
+    data:null,
+    message:error
+  })
 }
 
 module.exports = Responses;
