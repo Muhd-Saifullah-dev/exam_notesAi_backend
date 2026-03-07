@@ -17,10 +17,8 @@ const googleAuth = asyncHandler(async (req, res, next) => {
 
   console.log(email, name, picture, uid);
   let user = await User.findOne({ email });
-  if (user) {
-    return res.status(400).json({ message: "this email is already exist" });
-  }
 
+if(!user){
   user = await User.create({
     name,
     email,
@@ -29,13 +27,13 @@ const googleAuth = asyncHandler(async (req, res, next) => {
     isVerified: true,
     provider: "google",
   });
-
+}
   const accessToken = await user.generateAccessToken();
-
+  console.log("access token",accessToken)
   res.cookie("token", accessToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "strict",
+  secure: false,
+  sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
