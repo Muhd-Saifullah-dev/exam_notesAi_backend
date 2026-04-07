@@ -1,7 +1,8 @@
 const User = require("@model/user.model");
 const Responses = require("@constant/responses");
-const { buildPrompt } = require("src/utils/promptBuilder");
+const { buildPrompt } = require("../../../utils/promptBuilder");
 const Notes = require("@model/notes.model");
+const { generateGeminiResponse } = require("@config/gemini.config");
 const responses = new Responses();
 
 const generateNotes = async (req, res, next) => {
@@ -37,7 +38,7 @@ const generateNotes = async (req, res, next) => {
       includeDiagram,
     });
 
-    const aiResponse = await generateNotes(prompt);
+    const aiResponse = await generateGeminiResponse(prompt);
 
     const notes = await Notes.create({
       user: user._id,
@@ -54,14 +55,14 @@ const generateNotes = async (req, res, next) => {
     if (!Array.isArray(user.notes)) {
       user.notes = [];
     }
-    user.notes.push(note._id);
+    user.notes.push(notes._id);
     await user.save();
 
     return res
       .status(200)
       .json(
         responses.ok_response({
-          aiReponse,
+          aiResponse,
           noteId: notes._id,
           creditleft: user.credits,
         }),
@@ -71,3 +72,6 @@ const generateNotes = async (req, res, next) => {
     next(error);
   }
 };
+
+
+module.exports={generateNotes}

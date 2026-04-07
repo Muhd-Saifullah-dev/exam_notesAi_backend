@@ -1,4 +1,4 @@
-export const buildPrompt = ({
+ const buildPrompt = ({
   topic,
   classLevel,
   examType,
@@ -126,3 +126,7 @@ STRICT JSON FORMAT (DO NOT CHANGE):
 RETURN ONLY VALID JSON.
 `;
 };
+
+
+
+module.exports={buildPrompt}

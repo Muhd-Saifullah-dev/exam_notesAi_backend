@@ -1,47 +1,55 @@
-const { text } = require("express")
-const { GEMINI_API_KEY } = require("./env.config")
-const { model } = require("mongoose")
+const { GEMINI_API_KEY } = require("./env.config");
 
-const gemini_url="https://generativelanguage.googleapis.com/v1beta/models/\
-gemini-3.1-pro-preview:generateContent"
+const gemini_url =
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
 
-
-
-const generateGeminiResponse=async(prompt)=>{
+const generateGeminiResponse = async (prompt) => {
   try {
-    const response=await fetch(`${gemini_url}?key=${GEMINI_API_KEY}`,{
-      method:"POST",
-      headers:{
-        "content-Type":"application/json"
+    const response = await fetch(`${gemini_url}?key=${GEMINI_API_KEY}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify({
-        contents:{
-          parts:[
-            {
-              text:prompt
-            }
-          ]
-        }
-      })
-    })
-    if(!response.ok){
-      const err=await response.text()
-      throw new Error(err)
-    }
-    const data=await response.json()
-    const text=data.candidates?.[0].content?.parts?.[0].text
-    if(!text){
-      throw new Error("No text returned from Gemini")
-    }
-    const cleanText=text.replace(/```json/g,"")
-    .replace(/```/g,"")
-    .trim()
-  
-    return JSON.parse(cleanText)
-  } catch (error) {
-    console.error("Gemini Fetch Error",error.message)
-    throw  new Error("Gemini API fetch failed")
-  }
-}
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              {
+                text: prompt,
+              },
+            ],
+          },
+        ],
+      }),
+    });
 
-module.exports={generateGeminiResponse}
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Gemini API Error Response:", data);
+      throw new Error(data?.error?.message || "Gemini request failed");
+    }
+
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!text) {
+      throw new Error("No text returned from Gemini");
+    }
+
+    const cleanText = text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
+    try {
+      return JSON.parse(cleanText);
+    } catch {
+      return cleanText; // agar plain text aaye toh bhi return kar do
+    }
+  } catch (error) {
+    console.error("Gemini Fetch Error:", error.message);
+    throw new Error(error.message || "Gemini API fetch failed");
+  }
+};
+
+module.exports = { generateGeminiResponse };
