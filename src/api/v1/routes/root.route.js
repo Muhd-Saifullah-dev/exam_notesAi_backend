@@ -1,5 +1,6 @@
 const authRoute = require("./auth.routes");
 const generateRoute = require("./generate.route");
+const pdfRoute = require("./pdf.route");
 const userRoute = require("./user.routes");
 const Responses = require("@constant/responses");
 const responses = new Responses();
@@ -9,7 +10,7 @@ const rootRoute = express.Router();
 rootRoute.use("/auth", authRoute);
 rootRoute.use("/user", userRoute);
 rootRoute.use("/notes", generateRoute);
-
+rootRoute.use("/pdf-download", pdfRoute);
 rootRoute.use((req, res, next) => {
   return res.json(
     responses.bad_request_error("Endpoint not found", {
